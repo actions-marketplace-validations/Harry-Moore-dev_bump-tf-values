@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: harrymooredev/bump-tf-values
+          images: Harry-Moore-Dev/bump-tf-values
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
