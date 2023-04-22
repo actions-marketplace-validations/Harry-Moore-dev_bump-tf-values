@@ -1,15 +1,15 @@
 name: 'bump-tf-values'
-description: 'bump tf locals in a PR'
+description: 'Github action to update (bump) the value for a Terraform local within a specified Terraform file formatted with the standard syntax.'
 inputs:
   filepath:
-    description: 'filepath containing values to be bumped'
+    description: 'Filepath containing Terraform file to be modified'
     required: false
     default: 'main.tf'
   varname:
-    description: 'local name to be bumped'
+    description: 'Name of the local to be modified'
     required: true
   value:
-    description: 'value of local to be set'
+    description: 'New value to be assigned to the local'
     required: true
 runs:
   using: 'docker'
