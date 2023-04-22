@@ -18,24 +18,25 @@ func main() {
 	logger := log.With().Logger()
 	ctx := logger.WithContext(context.Background())
 
-	//check for command line flags
+	// check for command line flags
 	var debug bool
 	flag.BoolVar(&debug, "debug", false, "set log level to debug")
 	flag.Parse()
 
-	//Set log level to warning unless in debug mode
+	// set log level to warning unless in debug mode
 	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	if debug {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 
-	//load env vars
+	// load env vars
 	filePath := os.Getenv("INPUT_FILEPATH")
 	varname := os.Getenv("INPUT_VARNAME")
 	value := os.Getenv("INPUT_VALUE")
 	log.Ctx(ctx).Debug().Str("filepath", filePath).Str("varname", varname).Str("value", value).Msg("env vars loaded")
 
-	file, err := openFile(filePath)
+	// open specified Terraform file
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0600)
 	if err != nil {
 		log.Ctx(ctx).Err(err).Msgf("Error opening file %v", err)
 	}
@@ -49,13 +50,21 @@ func main() {
 
 	saveHcl(file, ctx, hclFile)
 
-	file.Close()
+	err = file.Close()
+	if err != nil {
+		log.Ctx(ctx).Err(err).Msgf("Error closing file %v", err)
+	}
 }
 
 // save hcl configuration to file
 func saveHcl(file *os.File, ctx context.Context, hclFile *hclwrite.File) {
+	// truncate & move pointer to start of file
+	err := file.Truncate(0)
+	if err != nil {
+		log.Ctx(ctx).Err(err).Msgf("Error truncating of file %v", err)
+	}
 	// move pointer to start of file
-	_, err := file.Seek(0, io.SeekStart)
+	_, err = file.Seek(0, io.SeekStart)
 	if err != nil {
 		log.Ctx(ctx).Err(err).Msgf("Error seeking start of file %v", err)
 	}
@@ -64,15 +73,6 @@ func saveHcl(file *os.File, ctx context.Context, hclFile *hclwrite.File) {
 	if err != nil {
 		log.Ctx(ctx).Err(err).Msgf("Error writing to file %v", err)
 	}
-}
-
-// open file from path
-func openFile(filepath string) (*os.File, error) {
-	file, err := os.OpenFile(filepath, os.O_RDWR, 0644)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
 }
 
 // load and parse file
