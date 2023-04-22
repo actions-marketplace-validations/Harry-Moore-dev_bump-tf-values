@@ -1,0 +1,12 @@
+name: codecov
+on: [push]
+
+jobs:
+  staticcheck:
+    name: codecov upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+-     - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
