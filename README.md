@@ -11,7 +11,7 @@ This action can be used by referencing the version tag in the workflow file.
 ```yaml
 uses: Harry-Moore-dev/bump-tf-values@v0.1.0-alpha
 ```
-Or using the preferred way for faster execution from the lightweight prebuilt docker image published with the same version tag or the 'latest' tag.
+Or using the preferred way for faster execution from the lightweight prebuilt docker image published with the same version tag or the `latest` tag.
 ```yaml
 uses: docker://ghcr.io/harry-moore-dev/bump-tf-values:v0.1.0-alpha
 ```
@@ -19,7 +19,7 @@ uses: docker://ghcr.io/harry-moore-dev/bump-tf-values:v0.1.0-alpha
 ### Examples
 #### Basic Usage
 
-Example usage triggered when publishing a release to modify the local 'code_version' within the submodule 'module/main.tf' to be set as the value of the tag that has just been published. This example uses the 'actions/checkout' action to checkout the repository and then the 'peter-evans/create-pull-request' action to raise a pull request with the changes.
+Example usage triggered when publishing a release to modify the local `code_version` within the submodule `module/main.tf` to be set as the value of the tag that has just been published. This example uses the `actions/checkout` action to checkout the repository and then the `peter-evans/create-pull-request` action to raise a pull request with the changes.
 
 ```yaml
 name: bump-tf
@@ -44,7 +44,7 @@ jobs:
 
 #### Usage with Signed Commits
 
-For a repository that enforces signed commits, I recommend creating a bot account and following the guidance in [this post](https://httgp.com/signing-commits-in-github-actions/) to create and store a GPG key as a repository secret. This can then be imported using the 'crazy-max/ghaction-import-gpg' action.
+For a repository that enforces signed commits, I recommend creating a bot account and following the guidance in [this post](https://httgp.com/signing-commits-in-github-actions/) to create and store a GPG key as a repository secret. This can then be imported using the `crazy-max/ghaction-import-gpg` action.
 
 ```yaml
 name: bump-tf
@@ -95,15 +95,15 @@ This action takes the following inputs:
 
 | Input      | Description                                                                       | Type   | Usage      |
 | ---------- | --------------------------------------------------------------------------------- | ------ | ---------- |
-| 'filepath' | Filepath containing Terraform file to be modified. If blank defaults to 'main.tf' | String | Optional   |
-| 'varname'  | Name of the local to be modified                                                  | String | \*Required |
-| 'value'    | New value to be assigned to the local                                             | String | \*Required |
+| `filepath` | Filepath containing Terraform file to be modified. If blank defaults to `main.tf` | String | Optional   |
+| `varname`  | Name of the local to be modified                                                  | String | \*Required |
+| `value`    | New value to be assigned to the local                                             | String | \*Required |
 
 ## Build Instructions
 
-To build your own version of the docker container run `docker build -f -t <\username/repo> Publishing.dockerfile .'
+To build your own version of the docker container run `docker build -f -t <\username/repo> Publishing.dockerfile .`
 
 ## Future Improvments
 
 * Support multiple variables & values as inputs
-* Support other block types than 'locals' such as variable defaults
+* Support other block types than `locals` such as variable defaults
