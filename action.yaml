@@ -1,5 +1,5 @@
 name: 'bump-tf-values'
-description: 'Github action to update (bump) the value for a Terraform local within a specified Terraform file formatted with the standard syntax.'
+description: 'Github action to update (bump) the value for a Terraform local'
 inputs:
   filepath:
     description: 'Filepath containing Terraform file to be modified'
